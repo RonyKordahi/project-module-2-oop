@@ -32,12 +32,64 @@ class Enemy {
         // is why we create a property that refers to it.
         this.domElement = document.createElement('img');
         // We give it a src attribute to specify which image to display.
-        this.domElement.src = './images/enemy.png';
+        let randomEnemy = Math.floor(Math.random() * 13 + 1);
+        switch (randomEnemy) {
+            case 1:
+                this.domElement.src = './enemies/enemy1.gif';
+                break;
+            case 2:
+                this.domElement.src = './enemies/enemy2.gif';
+                break;
+            case 3:
+                this.domElement.src = './enemies/enemy3.gif';
+                break;
+            case 4:
+                this.domElement.src = './enemies/enemy4.gif';
+                break;
+            case 5:
+                this.domElement.src = './enemies/enemy5.gif';
+                break;
+                
+            case 6:
+                this.domElement.src = './enemies/enemy6.gif';
+                break;
+            
+            case 7:
+                this.domElement.src = './enemies/enemy7.gif';
+                break;
+        
+            case 8:
+                this.domElement.src = './enemies/enemy8.gif';
+                break;
+            
+            case 9:
+                this.domElement.src = './enemies/enemy9.gif';
+                break;
+            
+            case 10:
+                this.domElement.src = './enemies/enemy10.gif';
+                break;
+            
+            case 11:
+                this.domElement.src = './enemies/enemy11.gif';
+                break;
+            
+            case 12:
+                this.domElement.src = './enemies/enemy12.gif';
+                break;
+            
+            case 13:
+                this.domElement.src = './enemies/enemy13.gif';
+                break;
+                                            
+        }
         // We modify the CSS style of the DOM node.
         this.domElement.style.position = 'absolute';
         this.domElement.style.left = `${this.x}px`;
         this.domElement.style.top = `${this.y}px`;
         this.domElement.style.zIndex = 5;
+        this.domElement.width = ENEMY_WIDTH;
+        this.domElement.height = ENEMY_HEIGHT;
         // Show that the user can actually see the img DOM node, we append it to the root DOM node.
         theRoot.appendChild(this.domElement);
         this.speed = Math.random() / 2 + 0.25;

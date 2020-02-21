@@ -1,6 +1,16 @@
 // The engine class will only be instantiated once. It contains all the logic
 // of the game relating to the interactions between the player and the
 // enemy and also relating to how our enemies are created and evolve over time
+let timerWin = "";
+
+function killVideo() {
+    let vid = document.getElementById("myVideo");
+    vid.muted = true;
+    vid.src = '';
+    vid.pause();
+    bg.style.zIndex = 100;
+}
+
 class Engine {
     // The constructor has one parameter. It will refer to the DOM node that we will be adding everything to.
     // You need to provide the DOM node when you create an instance of the class
@@ -50,15 +60,48 @@ class Engine {
         // We check if the player is dead. If he is, we alert the user
         // and return from the method (Why is the return statement important?)
         if (this.isPlayerDead()) {
-            window.alert("Game over");
-            return;
+            killVideo();
+            
+            setTimeout(function (){
+                clearTimeout(this.gameLoop);
+                alert("Game over");
+                location.reload();
+            }, 19);
         }
+
         // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
         setTimeout(this.gameLoop, 20);
-    }
+    };
+    
+    timerWin = setTimeout(() => {
+        if(!this.isPlayerDead()) {
+            bg.src = 'assets/victory.gif';
+            killVideo();
+            new Audio("./assets/victory-sound.mp3").play();
+            setTimeout(function (){
+                clearTimeout(this.gameLoop);
+                alert("You win!");
+                location.reload();
+                clearTimeout(timerWin);
+            }, 110);
+        }
+    }, 205000);
+
     // This method is not implemented correctly, which is why
     // the burger never dies. In your exercises you will fix this method.
     isPlayerDead = () => {
-        return false;
+        
+        let dead = false;
+        let hitboxTop = this.player.y + 25;
+        let hitboxBot = this.player.y - 110;
+        
+        this.enemies.forEach((enemy) => {
+            if (enemy.x === this.player.x && enemy.y > hitboxBot && enemy.y < hitboxTop) {
+                dead = true;
+                new Audio("./assets/fail.mp3").play();
+                return;
+            } 
+        })
+        return dead;
     }
 }
